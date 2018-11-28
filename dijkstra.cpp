@@ -6,16 +6,16 @@
 using namespace std;
 
 const int DefaultVertices = 30;
-const int maxWeight = 99999;   //³õÊ¼È¨Öµ
+const int maxWeight = 99999;   //åˆå§‹æƒå€¼
 
 
 
 struct Station
 {
-	int ID;                 //¹Ø¼üÂë
-	string IP;              //IPµØÖ·
-	int NextStation[15];    //ÏÂÒ»ÌøÊı×é
-	int dst[15];            //Ä¿µÄ¾àÀë
+	int ID;                 //å…³é”®ç 
+	string IP;              //IPåœ°å€
+	int NextStation[15];    //ä¸‹ä¸€è·³æ•°ç»„
+	int dst[15];            //ç›®çš„è·ç¦»
 	ostream & operator =(Station B)
 	{
 		ID = B.ID;
@@ -26,7 +26,7 @@ struct Station
 	}
 };
 
-Station Sta[15];               //Â·ÓÉÆ÷½á¹¹Ìå
+Station Sta[15];               //è·¯ç”±å™¨ç»“æ„ä½“
 
 template <class T, class E>
 
@@ -44,8 +44,8 @@ public:
 	{
 		return v1 != -1 && v2 != -1 ? Edge[v1][v2] : 0;
 	}
-	int getFirstNeibor(int v);                  //È¡µÚÒ»¸ö
-	int getNextNeibor(int v, int w);             //È¡µÚ¶ş¸ö
+	int getFirstNeibor(int v);                  //å–ç¬¬ä¸€ä¸ª
+	int getNextNeibor(int v, int w);             //å–ç¬¬äºŒä¸ª
 	int NumberOfVertices()
 	{
 		return numVertices;
@@ -54,16 +54,16 @@ public:
 	{
 		return numEdges;
 	}
-	bool insertVertex(const T & vertex);        //²åÈë¶¥µã
-	bool insertEdge(int v1, int v2, E cost);      //²åÈë±ß
-	bool removeVertex(int v);                   //É¾³ı¶¥µã
-	bool removeEdge(int v1, int v2);             //É¾³ı±ß
+	bool insertVertex(const T & vertex);        //æ’å…¥é¡¶ç‚¹
+	bool insertEdge(int v1, int v2, E cost);      //æ’å…¥è¾¹
+	bool removeVertex(int v);                   //åˆ é™¤é¡¶ç‚¹
+	bool removeEdge(int v1, int v2);             //åˆ é™¤è¾¹
 private:
-	T * VerticesList;//¶¥µã±í
-	E ** Edge;       //ÁÚ½Ó¾ØÕó
-	int numEdges;    //µ±Ç°±ßÊı
-	int numVertices; //µ±Ç°¶¥µãÊı
-	int maxVertices; //×î´ó¶¥µãÊı
+	T * VerticesList;//é¡¶ç‚¹è¡¨
+	E ** Edge;       //é‚»æ¥çŸ©é˜µ
+	int numEdges;    //å½“å‰è¾¹æ•°
+	int numVertices; //å½“å‰é¡¶ç‚¹æ•°
+	int maxVertices; //æœ€å¤§é¡¶ç‚¹æ•°
 	int getVertexPos(T vertex)
 	{
 		for (int i = 0; i < numVertices; i++)
@@ -174,9 +174,9 @@ ostream & operator <<(ostream & out, Graph<int, int> & G)
 	int n, m; int e1, e2; int w;
 	n = G.NumberOfVertices();
 	m = G.NumberOfEdges();
-	out << "½ÚµãÊıºÍ±ßÊıÎª£º"
+	out << "èŠ‚ç‚¹æ•°å’Œè¾¹æ•°ä¸ºï¼š"
 		<< n << "." << m << endl;
-	out << "ËùÓĞµÄ±ßÎª:(½Úµã1,½Úµã2,¾àÀë)" << endl;
+	out << "æ‰€æœ‰çš„è¾¹ä¸º:(èŠ‚ç‚¹1,èŠ‚ç‚¹2,è·ç¦»)" << endl;
 	for (int i = 0; i < n; i++)
 	for (int j = i + 1; j < n; j++)
 	{
@@ -193,10 +193,10 @@ ostream & operator <<(ostream & out, Graph<int, int> & G)
 
 template<class T, class E>
 
-void Dijkstra(Graph<T, E>&G, T v, E dist[], int path[], Station &Sta)//path´æ·ÅÇóµ½µÄ×î¶ÌÂ·¾¶£¬dist[j]ÊÇvµ½jµÄ×î¶ÌÂ·¾¶³¤¶È
+void Dijkstra(Graph<T, E>&G, T v, E dist[], int path[], Station &Sta)//pathå­˜æ”¾æ±‚åˆ°çš„æœ€çŸ­è·¯å¾„ï¼Œdist[j]æ˜¯våˆ°jçš„æœ€çŸ­è·¯å¾„é•¿åº¦
 {
 	int n = G.NumberOfVertices();
-	bool *S = new bool[n];//S´æ·ÅÒÑ¾­Çó³öµÄ×î¶ÌÂ·¾¶µÄÖÕµã
+	bool *S = new bool[n];//Så­˜æ”¾å·²ç»æ±‚å‡ºçš„æœ€çŸ­è·¯å¾„çš„ç»ˆç‚¹
 	int i, j, k;
 	E w, min;
 	for (i = 0; i < n; i++)
@@ -208,7 +208,7 @@ void Dijkstra(Graph<T, E>&G, T v, E dist[], int path[], Station &Sta)//path´æ·ÅÇ
 		else
 			path[i] = -1;
 	}
-	S[v] = true;//¶¥µãv¼ÓÈë¶¥µã¼¯ºÏ
+	S[v] = true;//é¡¶ç‚¹våŠ å…¥é¡¶ç‚¹é›†åˆ
 	dist[v] = 0;
 	for (i = 0; i < n - 1; i++)
 	{
@@ -223,7 +223,7 @@ void Dijkstra(Graph<T, E>&G, T v, E dist[], int path[], Station &Sta)//path´æ·ÅÇ
 			}
 		}
 		int pro = u;
-		//Çó½âÏÂÒ»ÌøµØÖ·
+		//æ±‚è§£ä¸‹ä¸€è·³åœ°å€
 		//****************************************
 		while (path[pro] != v && path[pro] != -1)
 		{
@@ -236,10 +236,10 @@ void Dijkstra(Graph<T, E>&G, T v, E dist[], int path[], Station &Sta)//path´æ·ÅÇ
 		for (k = 0; k < n; k++)
 		{
 			w = G.getWeight(u, k);
-			if (S[k] == false && w < maxWeight && dist[u] + w < dist[k])//¶¥µãkÎ´¼ÓÈëS£¬ÇÒÈÆ¹ıu¿ÉÒÔËõ¶ÌÂ·¾¶
+			if (S[k] == false && w < maxWeight && dist[u] + w < dist[k])//é¡¶ç‚¹kæœªåŠ å…¥Sï¼Œä¸”ç»•è¿‡uå¯ä»¥ç¼©çŸ­è·¯å¾„
 			{
 				dist[k] = dist[u] + w;
-				path[k] = u;//ĞŞ¸Äµ½kµÄ×î¶ÌÂ·¾¶
+				path[k] = u;//ä¿®æ”¹åˆ°kçš„æœ€çŸ­è·¯å¾„
 			}
 		}
 	}
@@ -249,7 +249,7 @@ template <class T, class E>
 
 void PrintShortesPath(Graph<T, E> & G, int v, E dist[], int path[])
 {
-	cout << "´Ó¶¥µã" << G.getValue(v) << "µ½ÆäËû¸÷¶¨µãµÄ×î¶ÌÂ·¾¶Îª:" << endl;
+	cout << "ä»é¡¶ç‚¹" << G.getValue(v) << "åˆ°å…¶ä»–å„å®šç‚¹çš„æœ€çŸ­è·¯å¾„ä¸º:" << endl;
 	int j, k, n = G.NumberOfVertices();
 	int * d = new int[n];
 	for (int i = 0; i < n; i++)
@@ -260,13 +260,13 @@ void PrintShortesPath(Graph<T, E> & G, int v, E dist[], int path[])
 			d[k++] = j;
 			j = path[j];
 		}
-		cout << "¶¥µã" << G.getValue(i) << "µÄ×î¶ÌÂ·¾¶Îª:" << G.getValue(v) << " ";
+		cout << "é¡¶ç‚¹" << G.getValue(i) << "çš„æœ€çŸ­è·¯å¾„ä¸º:" << G.getValue(v) << " ";
 		while (k > 0){ cout << G.getValue(d[--k]) << " "; }
-		cout << "×î¶ÌÂ·¾¶³¤¶ÈÎª:" << dist[i] << endl;
+		cout << "æœ€çŸ­è·¯å¾„é•¿åº¦ä¸º:" << dist[i] << endl;
 	}
 }
 
-//Éú³ÉÊ÷µÄº¯Êı
+//ç”Ÿæˆæ ‘çš„å‡½æ•°
 void PrintTree(int v, int path[], int num, int depth)
 {
 	for (int i = 0; i < num; i++)
@@ -291,9 +291,9 @@ int path[15];
 void FileIn()
 {
 	ifstream in;
-	in.open("C:\\Apps\\×÷Òµ\\123\\²âÊÔÊı¾İ.txt");
+	in.open("C:\\Apps\\ä½œä¸š\\123\\æµ‹è¯•æ•°æ®.txt");
 	int num = 0;
-	//´ÓÎÄ¼ş¶ÁÈ¡Êı¾İ£¬ÏÈÌáÈ¡³öÀ´²¢±£´æµ½tempÊı×éÖĞ
+	//ä»æ–‡ä»¶è¯»å–æ•°æ®ï¼Œå…ˆæå–å‡ºæ¥å¹¶ä¿å­˜åˆ°tempæ•°ç»„ä¸­
 	int VerticesNum;
 	in >> VerticesNum;
 	//cout<<VerticesNum<<endl;
@@ -326,7 +326,7 @@ void FileIn()
 void FileOut()
 {
 	ofstream out;
-	out.open("²âÊÔÊı¾İ.txt");
+	out.open("æµ‹è¯•æ•°æ®.txt");
 	int VerticesNumber = G.NumberOfVertices();
 	out << VerticesNumber << endl;
 	for (int i = 0; i < VerticesNumber; i++)
@@ -342,7 +342,7 @@ void FileOut()
 			out << Sta[e1].ID << " " << Sta[e2].ID << " " << w << endl;
 		}
 	}
-	cout << "±£´æ³É¹¦£¡" << endl << endl << endl;
+	cout << "ä¿å­˜æˆåŠŸï¼" << endl << endl << endl;
 	out.close();
 }
 
@@ -350,13 +350,13 @@ void InsertValue()
 {
 	string temp;
 	int i = G.NumberOfVertices();
-	cout << "ÇëÊäÈëÂ·ÓÉ±íµÄ±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨çš„æ ‡å·:";
 	cin >> Sta[i].ID;
-	cout << "ÇëÊäÈëÂ·ÓÉ±íµÄIP:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨çš„IP:";
 	cin >> temp;
 	Sta[i].IP = temp;
 	G.insertVertex(i);
-	cout << "²åÈë³É¹¦£¡" << endl << endl << endl;
+	cout << "æ’å…¥æˆåŠŸï¼" << endl << endl << endl;
 }
 
 void InsertWeight()
@@ -364,18 +364,18 @@ void InsertWeight()
 	int a, b, p, k, w;
 	p = k = 0;
 	int num = G.NumberOfVertices();
-	cout << "ÇëÊäÈëÂ·ÓÉ±íaµÄ±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨açš„æ ‡å·:";
 	cin >> a;
-	cout << "ÇëÊäÈëÂ·ÓÉ±íbµÄ±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨bçš„æ ‡å·:";
 	cin >> b;
-	cout << "ÇëÊäÈëÁ½¶Ëµã¾àÀë:";
+	cout << "è¯·è¾“å…¥ä¸¤ç«¯ç‚¹è·ç¦»:";
 	cin >> w;
 	while (Sta[p].ID != a)  p++;
 	while (Sta[k].ID != b)  k++;
 	G.insertEdge(p, k, w);
 	for (int i = 0; i < num; i++)
 		Dijkstra(G, i, dist, path, Sta[i]);
-	cout << "²åÈë³É¹¦£¡" << endl << endl << endl;
+	cout << "æ’å…¥æˆåŠŸï¼" << endl << endl << endl;
 }
 
 void DeleteVertex()
@@ -384,34 +384,34 @@ void DeleteVertex()
 	string choose;
 	string temp;
 	int num = G.NumberOfVertices();
-	cout << "ÇëÊäÈëÂ·ÓÉ±íµÄ±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨çš„æ ‡å·:";
 	cin >> ID;
 	while (Sta[p].ID != ID)  p++;
-	cout << "Çë½øĞĞĞÅÏ¢ºË¶Ô:" << endl;
-	cout << "Â·ÓÉÆ÷IPÎª:" << Sta[p].IP << endl;
-	cout << "°´1È·ÈÏÉ¾³ı£¬ÆäËü¼üÍË»Ø" << endl;
+	cout << "è¯·è¿›è¡Œä¿¡æ¯æ ¸å¯¹:" << endl;
+	cout << "è·¯ç”±å™¨IPä¸º:" << Sta[p].IP << endl;
+	cout << "æŒ‰1ç¡®è®¤åˆ é™¤ï¼Œå…¶å®ƒé”®é€€å›" << endl;
 	cin >> choose;
-	if (choose != "1") { cout << "ÒÑÈ¡Ïû!" << endl << endl; return; }
+	if (choose != "1") { cout << "å·²å–æ¶ˆ!" << endl << endl; return; }
 	G.removeVertex(p);
 	for (int i = p; i < num - 1; i++)
 		Sta[i] = Sta[i + 1];
 	for (int i = 0; i < num - 1; i++)
 		Dijkstra(G, i, dist, path, Sta[i]);
-	cout << "É¾³ı³É¹¦£¡" << endl << endl << endl;
+	cout << "åˆ é™¤æˆåŠŸï¼" << endl << endl << endl;
 }
 
 void DeleteEdge()
 {
 	int a, b, p, k;
 	p = k = 0;
-	cout << "ÇëÊäÈëÂ·ÓÉ±íaµÄIP:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨açš„IP:";
 	cin >> a;
-	cout << "ÇëÊäÈëÂ·ÓÉ±íbµÄIP:";
+	cout << "è¯·è¾“å…¥è·¯ç”±è¡¨bçš„IP:";
 	cin >> b;
 	while (Sta[p].ID != a)  p++;
 	while (Sta[k].ID != b)  k++;
 	G.removeEdge(p, k);
-	cout << "É¾³ı³É¹¦£¡" << endl << endl << endl;
+	cout << "åˆ é™¤æˆåŠŸï¼" << endl << endl << endl;
 }
 
 void PrintGra()
@@ -423,12 +423,12 @@ void Print()
 {
 	int i, num = G.NumberOfVertices();
 	int p = 0;
-	cout << "ÇëÊäÈëÂ·ÓÉÆ÷±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±å™¨æ ‡å·:";
 	cin >> i;
 	while (Sta[p].ID != i)  p++;
-	cout << "Â·ÓÉÆ÷" << Sta[p].ID << "µÄÂ·ÓÉ±íÎª" << endl;
+	cout << "è·¯ç”±å™¨" << Sta[p].ID << "çš„è·¯ç”±è¡¨ä¸º" << endl;
 	cout << "________________________________________________________________" << endl;
-	cout << "|Ä¿µÄÂ·ÓÉÆ÷ | Ä¿µÄIPµØÖ·  |   ¾àÀë  | ÏÂÒ»Ìø±êºÅ  | ÏÂÒ»ÌøµØÖ· |" << endl;
+	cout << "|ç›®çš„è·¯ç”±å™¨ | ç›®çš„IPåœ°å€  |   è·ç¦»  | ä¸‹ä¸€è·³æ ‡å·  | ä¸‹ä¸€è·³åœ°å€ |" << endl;
 	for (int j = 0; j < num; j++)
 	{
 		cout << "|" << setfill(' ') << setw(5) << Sta[j].ID;
@@ -442,7 +442,7 @@ void Print()
 		else
 		{
 			cout << "    |" << setfill(' ') << setw(14);
-			cout << "|" << setfill(' ') << setw(11) << "Ö±½Ó½»¸¶";
+			cout << "|" << setfill(' ') << setw(11) << "ç›´æ¥äº¤ä»˜";
 		}
 		cout << " |" << endl;
 	}
@@ -454,10 +454,10 @@ void Tree()
 	int i, num = G.NumberOfVertices();
 	//cout<<G.NumberOfVertices()<<endl;
 	int p = 0;
-	cout << "ÇëÊäÈëÂ·ÓÉÆ÷±êºÅ:";
+	cout << "è¯·è¾“å…¥è·¯ç”±å™¨æ ‡å·:";
 	cin >> i;
 	while (Sta[p].ID != i)  p++;
-	cout << "Â·ÓÉÆ÷" << Sta[p].ID << "µÄ×î¶ÌÂ·¾¶Éú³ÉÊ÷Îª" << endl;
+	cout << "è·¯ç”±å™¨" << Sta[p].ID << "çš„æœ€çŸ­è·¯å¾„ç”Ÿæˆæ ‘ä¸º" << endl;
 	cout << endl << Sta[p].ID << endl;
 	Dijkstra(G, p, dist, path, Sta[p]);
 	PrintTree(p, path, num, 1);
@@ -469,17 +469,17 @@ int PrintChoose()
 	cout << "*******************************"
 		<< "*******************************"
 		<< "*******************************" << endl
-		<< "1.²åÈëµã  2.²åÈë±ß  3.É¾³ıµã  4.É¾³ı±ß  "
-		<< "5.²é¿´Í¼ 6.²é¿´Â·ÓÉ±í 7.Éú³ÉÊ÷ 8.±£´æĞŞ¸Ä" << endl
+		<< "1.æ’å…¥ç‚¹  2.æ’å…¥è¾¹  3.åˆ é™¤ç‚¹  4.åˆ é™¤è¾¹  "
+		<< "5.æŸ¥çœ‹å›¾ 6.æŸ¥çœ‹è·¯ç”±è¡¨ 7.ç”Ÿæˆæ ‘ 8.ä¿å­˜ä¿®æ”¹" << endl
 		<< "*******************************"
 		<< "*******************************"
 		<< "*******************************" << endl
-		<< "ÊäÈëÊı×Ö½øĞĞ²Ù×÷( ):\b\b\b";
+		<< "è¾“å…¥æ•°å­—è¿›è¡Œæ“ä½œ( ):\b\b\b";
 	int choose;
 	cin >> choose;
 	switch (choose)
 	{
-	case 0: {cout << "¸ĞĞ»Ê¹ÓÃ£¡" << endl; return 0; }
+	case 0: {cout << "æ„Ÿè°¢ä½¿ç”¨ï¼" << endl; return 0; }
 	case 1: InsertValue(); break;
 	case 2: InsertWeight(); break;
 	case 3: DeleteVertex(); break;
@@ -488,7 +488,7 @@ int PrintChoose()
 	case 6: Print(); break;
 	case 7: Tree(); break;
 	case 8: FileOut(); break;
-	default: cout << "ÊäÈëÓĞÎó£¡" << endl;
+	default: cout << "è¾“å…¥æœ‰è¯¯ï¼" << endl;
 	}
 	return true;
 }
@@ -496,8 +496,8 @@ int PrintChoose()
 
 int main()
 {
-	cout << endl << "\t\t\t\t»¶Ó­Ê¹ÓÃÂ·ÓÉ±íÉú³É²éÑ¯ÏµÍ³£¡" << endl;
-	FileIn();//´ÓÎÄ¼şµ¼Èë
+	cout << endl << "\t\t\t\tæ¬¢è¿ä½¿ç”¨è·¯ç”±è¡¨ç”ŸæˆæŸ¥è¯¢ç³»ç»Ÿï¼" << endl;
+	FileIn();//ä»æ–‡ä»¶å¯¼å…¥
 	while (1)
 	{
 		if (!PrintChoose()) break;
@@ -509,8 +509,8 @@ int main()
 /*
 for(int i = 0 ; i < 9 ; i ++ )
 {
-cout<<"Â·ÓÉÆ÷"<<Sta[i].ID<<"µÄÂ·ÓÉ±íÎª"<<endl;
-cout<<"Â·ÓÉÆ÷±êºÅ    IPµØÖ·   ÏÂÒ»ÌøµØÖ·"<<endl;
+cout<<"è·¯ç”±å™¨"<<Sta[i].ID<<"çš„è·¯ç”±è¡¨ä¸º"<<endl;
+cout<<"è·¯ç”±å™¨æ ‡å·    IPåœ°å€   ä¸‹ä¸€è·³åœ°å€"<<endl;
 for(int j = 0 ; j < 9 ; j ++ )
 {
 cout<<Sta[j].ID<<"\t     ";
